@@ -43,7 +43,10 @@ class DataFileDAO(config: Config) {
       try {
         while (true) {
           val dataInfo = readFileInfo(in)
-          addFile(dataInfo.appName)
+          if (dataInfo.appName.startsWith(rootDir) && new File(dataInfo.appName).exists()) {
+            addFile(dataInfo.appName)
+            // TODO re-write metadata cache
+          }
         }
       } catch {
         case e: EOFException => // do nothing
